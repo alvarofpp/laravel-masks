@@ -7,22 +7,6 @@ use Illuminate\Support\Str;
 trait MaskAttributes
 {
     /**
-     * MaskAttributes constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        if (! property_exists($this, 'maskSuffix')) {
-            $this->maskSuffix = '_masked';
-        }
-
-        if (! property_exists($this, 'masks')) {
-            $this->masks = [];
-        }
-    }
-
-    /**
      * Takes the masks for each attribute.
      * [$attribute => $mask]
      *
@@ -30,7 +14,23 @@ trait MaskAttributes
      */
     public function getMasks()
     {
-        return $this->masks;
+        if (property_exists($this, 'masks')) {
+            return $this->masks;
+        }
+        return [];
+    }
+
+    /**
+     * Takes the mask suffix used.
+     *
+     * @return string
+     */
+    public function getMaskSuffix()
+    {
+        if (property_exists($this, 'maskSuffix')) {
+            return $this->maskSuffix;
+        }
+        return '_masked';
     }
 
     /**
@@ -63,7 +63,7 @@ trait MaskAttributes
             return false;
         }
 
-        return Str::endsWith($key, $this->maskSuffix)
+        return Str::endsWith($key, $this->getMaskSuffix())
             && key_exists($this->getKeyWithoutMask($key), $this->getMasks());
     }
 
@@ -85,7 +85,7 @@ trait MaskAttributes
      */
     private function getKeyWithoutMask($key)
     {
-        return Str::replaceLast($this->maskSuffix, '', $key);
+        return Str::replaceLast($this->getMaskSuffix(), '', $key);
     }
 
     /**
@@ -96,6 +96,6 @@ trait MaskAttributes
      */
     private function getKeyWithMask($key)
     {
-        return Str::snake($key) . $this->maskSuffix;
+        return Str::snake($key) . $this->getMaskSuffix();
     }
 }
