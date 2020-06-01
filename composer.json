@@ -1,0 +1,30 @@
+{
+    "name": "alvarofpp/masks",
+    "description": "A package to mask your variables or model's attributes.",
+    "keywords" : ["laravel", "mask", "model"],
+    "type": "library",
+    "homepage": "https://github.com/alvarofpp/laravel-masks",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Álvaro Ferreira Pires de Paiva",
+            "email": "alvarofepipa@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+        "laravel/laravel": ">=6.0"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Alvarofpp\\Masks\\": "/src"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
