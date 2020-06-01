@@ -2,7 +2,6 @@
 
 namespace Alvarofpp\Masks\Traits;
 
-use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Support\Str;
 
 trait MaskAttributes
@@ -32,37 +31,6 @@ trait MaskAttributes
     public function getMasks()
     {
         return $this->masks;
-    }
-
-    /**
-     * Convert the model's attributes to an array.
-     *
-     * @return array
-     */
-    public function attributesToArray()
-    {
-        $attributes = parent::attributesToArray();
-
-        if (! $this->masksIsEmpty()) {
-            foreach ($this->getMasks() as $key => $mask) {
-                $newKey = $this->getKeyWithMask($key);
-                $attributes[$newKey] = mask($mask, $this->$key);
-            }
-        }
-
-        return $attributes;
-    }
-
-    /**
-     * Append attributes to query when building a query.
-     *
-     * @param  array|string  $attributes
-     * @return $this
-     */
-    public function append($attributes)
-    {
-        dd($attributes);
-        return parent::append($attributes);
     }
 
     /**
