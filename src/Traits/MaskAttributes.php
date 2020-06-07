@@ -45,7 +45,16 @@ trait MaskAttributes
 
         if (is_null($attributes) && $this->CheckKeyIsValid($key)) {
             $originalAttribute = $this->getKeyWithoutMask($key);
-            $attributes = mask($this->getMasks()[$originalAttribute], $this->$originalAttribute);
+            $mask = $this->getMasks()[$originalAttribute];
+
+            if (is_array($mask)) {
+                $key = strlen($this->$originalAttribute);
+                if (key_exists($key, $mask)) {
+                    $attributes = mask($mask[$key], $this->$originalAttribute);
+                }
+            } else {
+                $attributes = mask($mask, $this->$originalAttribute);
+            }
         }
 
         return $attributes;

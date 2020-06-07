@@ -56,12 +56,21 @@ class User extends Authenticatable
      */
     protected $masks = [
         'cpf' => '###.###.###-##',
+        'phone' => [
+            10 => '(##) ####-####',
+            11 => '(##) ###-###-###',
+        ],
     ];
     // ...
 }
 ```
 
 So if the value of `$user->cpf` is `12345678901`, you can use `$user->cpf_masked` to take the value masked.
+
+In the `$user->phone` case, the mask will depend on the length of the value, for example:
+if phone has `1234567890`, the value masked will be `(12) 3456-7890`,
+but if phone has `12345678901`, the value masked will be `(12) 345-678-901`.
+
 By default, `MaskAttributes` use the suffix `_masked`, you can change the suffix declaring `$maskSuffix`:
 ```php
 <?php
