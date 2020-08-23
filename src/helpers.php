@@ -13,9 +13,17 @@ if (!function_exists('mask')) {
         if (is_null($value)) {
             return '';
         }
+        $symbol = '#';
 
+        // Apply mask
         $value = str_replace(" ", "", $value);
-        $valueArray = str_split($value);
-        return Illuminate\Support\Str::replaceArray('#', $valueArray, $mask);
+        $replacedStr = Illuminate\Support\Str::replaceArray($symbol, str_split($value), $mask);
+
+        // Get filled substring
+        $posSymbol = strpos($replacedStr, $symbol, strlen($value));
+        $replacedStrLen = strlen($replacedStr);
+        $length = $posSymbol ? $replacedStrLen - ($replacedStrLen - $posSymbol) : $replacedStrLen;
+
+        return substr($replacedStr, 0, $length);
     }
 }
